@@ -10,4 +10,13 @@
 declare(strict_types=1);
 
 return [
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
+                'params' => [
+                    'url' => 'postgres://developers_search_user:developers_search_pass@db/developers_search_db',
+                ]
+            ]
+        ],        
+    ],
 ];
