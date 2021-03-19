@@ -1,0 +1,27 @@
+version: '3'
+
+services: 
+
+    web:
+        build: .
+        image: developers-search
+        volumes: 
+            - ../developers-search-api:/var/www/developers-search/developers-search-api
+            - ../developers-search-api/.docker/vhost/developers-search.conf:/etc/apache2/sites-available/000-default.conf
+        depends_on: 
+            - db
+        ports:
+            - 8080:80
+        links:
+            - "db:db"
+        network_mode: bridge
+
+    db:
+        image: postgres:13-alpine
+        environment: 
+            POSTGRES_USER: developers_search_user
+            POSTGRES_PASSWORD: developers_search_pass
+            POSTGRES_DB: developers_search_db
+        volumes: 
+            - "./.docker/dbdata:/var/lib/postgresql/data"
+        network_mode: bridge    
