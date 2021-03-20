@@ -13,7 +13,7 @@ class Entity {
         
         $method = "set" . ucfirst($key);
             
-        if(method_exists($this, $method)){
+        if(method_exists($this, $method) && is_callable([$this, $method])){
             $this->$method($value);
         }
     }
