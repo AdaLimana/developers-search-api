@@ -39,4 +39,5 @@ use Psr\Container\ContainerInterface;
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
 
     $app->get('/api/recrutadores[/{id:\d+}]', App\Handler\RecrutadorHandler::class, 'recrutador-get');
+    $app->post('/api/recrutadores', App\Handler\RecrutadorCreateHandler::class, 'recrutador-post');
 };
