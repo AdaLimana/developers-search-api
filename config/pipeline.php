@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Mezzio\Application;
 use Mezzio\Handler\NotFoundHandler;
+use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 use Mezzio\Helper\ServerUrlMiddleware;
 use Mezzio\Helper\UrlHelperMiddleware;
 use Mezzio\MiddlewareFactory;
@@ -58,6 +59,8 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 
     // Seed the UrlHelper with the routing results:
     $app->pipe(UrlHelperMiddleware::class);
+
+    $app->pipe(BodyParamsMiddleware::class);//midler para pegar o json do request body
 
     // Add more middleware here that needs to introspect the routing results; this
     // might include:
