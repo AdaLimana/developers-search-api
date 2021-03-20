@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App;
 
 use App\Handler\Factory\RecrutadorCreateHandlerFactory;
+use App\Handler\Factory\RecrutadorDeleteHandlerFactory;
 use App\Handler\Factory\RecrutadorHandlerFactory;
 use App\Handler\Factory\RecrutadorUpdateHandlerFactory;
 use App\Handler\RecrutadorCreateHandler;
+use App\Handler\RecrutadorDeleteHandler;
 use App\Handler\RecrutadorHandler;
 use App\Handler\RecrutadorUpdateHandler;
 use App\Service\Entity\Factory\RecrutadorServiceFactory;
@@ -52,6 +54,7 @@ class ConfigProvider
                 RecrutadorHandler::class        => RecrutadorHandlerFactory::class,
                 RecrutadorCreateHandler::class  => RecrutadorCreateHandlerFactory::class,
                 RecrutadorUpdateHandler::class  => RecrutadorUpdateHandlerFactory::class,
+                RecrutadorDeleteHandler::class  => RecrutadorDeleteHandlerFactory::class,
             ],
         ];
     }
