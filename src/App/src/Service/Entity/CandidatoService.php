@@ -30,7 +30,9 @@ class CandidatoService
 
             $qb = $this->entityManager->createQueryBuilder()
                                       ->select('candidato')
-                                      ->from(Candidato::class, 'candidato');
+                                      ->addSelect('habilidades')
+                                      ->from(Candidato::class, 'candidato')
+                                      ->leftJoin('candidato.habilidades', 'habilidades');
             $result = [];
 
             if(
@@ -79,7 +81,9 @@ class CandidatoService
             $result = $this->entityManager
                            ->createQueryBuilder()
                            ->select('candidato')
+                           ->addSelect('habilidades')
                            ->from(Candidato::class, 'candidato')
+                           ->leftJoin('candidato.habilidades', 'habilidades')
                            ->where('candidato.id = :id')
                            ->setParameter('id', $id)
                            ->getQuery()

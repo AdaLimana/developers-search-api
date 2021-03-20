@@ -44,6 +44,7 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     $app->delete('/api/recrutadores/{id:\d+}', App\Handler\RecrutadorDeleteHandler::class, 'recrutador-delete');
 
     $app->get('/api/candidatos[/{id:\d+}]', App\Handler\CandidatoHandler::class, 'candidato-get');
+    $app->post('/api/candidatos', App\Handler\CandidatoCreateHandler::class, 'candidato-post');
     
 
 };

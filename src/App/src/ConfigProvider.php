@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Handler\CandidatoCreateHandler;
 use App\Handler\CandidatoHandler;
+use App\Handler\Factory\CandidatoCreateHandlerFactory;
 use App\Handler\Factory\CandidatoHandlerFactory;
 use App\Handler\Factory\RecrutadorCreateHandlerFactory;
 use App\Handler\Factory\RecrutadorDeleteHandlerFactory;
@@ -62,7 +64,8 @@ class ConfigProvider
                 RecrutadorUpdateHandler::class  => RecrutadorUpdateHandlerFactory::class,
                 RecrutadorDeleteHandler::class  => RecrutadorDeleteHandlerFactory::class,
 
-                CandidatoHandler::class     => CandidatoHandlerFactory::class,
+                CandidatoHandler::class         => CandidatoHandlerFactory::class,
+                CandidatoCreateHandler::class   => CandidatoCreateHandlerFactory::class,
 
             ],
         ];
