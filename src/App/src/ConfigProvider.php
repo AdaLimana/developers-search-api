@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Handler\Factory\RecrutadorHandlerFactory;
+use App\Handler\RecrutadorHandler;
 use App\Service\Entity\Factory\RecrutadorServiceFactory;
 use App\Service\Entity\RecrutadorService;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
@@ -41,6 +43,9 @@ class ConfigProvider
 
                 //Service/Entity
                 RecrutadorService::class => RecrutadorServiceFactory::class,
+
+                //Handler
+                RecrutadorHandler::class        => RecrutadorHandlerFactory::class,
             ],
         ];
     }
