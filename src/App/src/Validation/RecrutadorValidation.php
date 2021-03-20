@@ -83,7 +83,7 @@ class RecrutadorValidation extends InputFilter
                         'fields'            => ['email'],
                         'identifier'        => ['id'],
                         'message'           => [
-                            UniqueObject::ERROR_OBJECT_NOT_UNIQUE => 'Já existe um corretor com este email'
+                            UniqueObject::ERROR_OBJECT_NOT_UNIQUE => 'Já existe um recrutador com este email'
                         ]
                     ]
                 ]
