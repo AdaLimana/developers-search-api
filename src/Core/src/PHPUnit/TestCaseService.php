@@ -14,11 +14,19 @@ use PHPUnit\Framework\TestCase;
 class TestCaseService extends TestCase
 {
        
-    protected function assertUpdatedEntity(Entity $entity, array $data)
+    protected function assertEntityData(Entity $entity, array $data, array $ignoreFields = [])
     {
-        
+
+        $data = array_filter(
+                    $data, 
+                    function($key) use($ignoreFields){
+                        return !in_array($key, $ignoreFields);
+                    },
+                    ARRAY_FILTER_USE_KEY
+                );
+
         foreach ($data as $attribute => $value) {
-            
+
             $method = "get" . ucfirst($attribute);
             
             if(method_exists($entity, $method)){
