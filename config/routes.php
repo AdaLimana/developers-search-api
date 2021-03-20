@@ -40,4 +40,5 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
 
     $app->get('/api/recrutadores[/{id:\d+}]', App\Handler\RecrutadorHandler::class, 'recrutador-get');
     $app->post('/api/recrutadores', App\Handler\RecrutadorCreateHandler::class, 'recrutador-post');
+    $app->put('/api/recrutadores/{id:\d+}', App\Handler\RecrutadorUpdateHandler::class, 'recrutador-put');
 };

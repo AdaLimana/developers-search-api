@@ -6,8 +6,10 @@ namespace App;
 
 use App\Handler\Factory\RecrutadorCreateHandlerFactory;
 use App\Handler\Factory\RecrutadorHandlerFactory;
+use App\Handler\Factory\RecrutadorUpdateHandlerFactory;
 use App\Handler\RecrutadorCreateHandler;
 use App\Handler\RecrutadorHandler;
+use App\Handler\RecrutadorUpdateHandler;
 use App\Service\Entity\Factory\RecrutadorServiceFactory;
 use App\Service\Entity\RecrutadorService;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
@@ -48,7 +50,8 @@ class ConfigProvider
 
                 //Handler
                 RecrutadorHandler::class        => RecrutadorHandlerFactory::class,
-                RecrutadorCreateHandler::class  => RecrutadorCreateHandlerFactory::class
+                RecrutadorCreateHandler::class  => RecrutadorCreateHandlerFactory::class,
+                RecrutadorUpdateHandler::class  => RecrutadorUpdateHandlerFactory::class,
             ],
         ];
     }
