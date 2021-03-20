@@ -44,6 +44,7 @@
         "laminas/laminas-config-aggregator": "^1.2",
         "laminas/laminas-crypt": "^3.4",
         "laminas/laminas-diactoros": "^2.3.0",
+        "laminas/laminas-i18n": "^2.11",
         "laminas/laminas-inputfilter": "^2.12",
         "laminas/laminas-servicemanager": "^3.4",
         "laminas/laminas-stdlib": "^3.2.1",
