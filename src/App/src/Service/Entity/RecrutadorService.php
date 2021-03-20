@@ -5,7 +5,10 @@ namespace App\Service\Entity;
 use App\Entity\Recrutador;
 use App\Validation\RecrutadorValidation;
 use Core\Exception\ValidationException;
+use Core\Service\Entity\BaseEntityService;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Laminas\Crypt\Password\Bcrypt;
 
 /**
@@ -13,7 +16,7 @@ use Laminas\Crypt\Password\Bcrypt;
  *
  * @author adair
  */
-class RecrutadorService 
+class RecrutadorService
 {
 
     private EntityManagerInterface $entityManager;
@@ -23,26 +26,42 @@ class RecrutadorService
         $this->entityManager = $entityManager;
     }
 
-    public function getList(array $options = null)
+    public function getList(array $options = null): array
     {
         try{
-            $result = $this->entityManager
-                           ->createQueryBuilder()
-                           ->select('recrutador')
-                           ->from(Recrutador::class, 'recrutador')
-                           ->getQuery()
-                           ->getArrayResult();
+
+            $qb = $this->entityManager->createQueryBuilder()
+                                      ->select('partial recrutador.{id, email, created, updated}')
+                                      ->from(Recrutador::class, 'recrutador');
+            $result = [];
+
+            if(
+                is_array($options) && 
+                isset($options['pagination']) &&
+                is_array($options['pagination']) &&
+                isset($options['pagination']['page']) &&
+                isset($options['pagination']['count'])
+            ){
+                $qb->setFirstResult($options['pagination']['count'] * ($options['pagination']['page'] - 1) )
+                   ->setMaxResults($options['pagination']['count']);
+
+                $paginator = new Paginator($qb, true);
+
+                $result['data'] =  $paginator->getQuery()->getArrayResult();
+                $result['totalRecords'] = count($paginator);
+
+            }
+            else{
+                $result['data'] =  $qb->getQuery()->getArrayResult();
+                $result['totalRecords'] = count($result['data']);
+            }
         }
         catch(\Exception $ex){
             throw new \Exception($ex->getMessage(), 500);
         }
 
-        if(empty($result)){
-            throw new \Exception('Recrutador não encontrado', 404);
-        }
-
         array_walk(
-            $result, 
+            $result['data'], 
             function(&$value){ \Core\Entity\FormatAttributes::formatDate($value); }
         );
 
@@ -61,7 +80,7 @@ class RecrutadorService
         try{
             $result = $this->entityManager
                            ->createQueryBuilder()
-                           ->select('recrutador')
+                           ->select('partial recrutador.{id, email, created, updated}')
                            ->from(Recrutador::class, 'recrutador')
                            ->where('recrutador.id = :id')
                            ->setParameter('id', $id)
@@ -79,7 +98,6 @@ class RecrutadorService
         \Core\Entity\FormatAttributes::formatDate($result[0]);
 
         return $result[0];
-
     }
 
     /**
