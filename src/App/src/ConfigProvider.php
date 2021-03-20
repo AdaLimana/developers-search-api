@@ -12,6 +12,8 @@ use App\Handler\RecrutadorCreateHandler;
 use App\Handler\RecrutadorDeleteHandler;
 use App\Handler\RecrutadorHandler;
 use App\Handler\RecrutadorUpdateHandler;
+use App\Service\Entity\CandidatoService;
+use App\Service\Entity\Factory\CandidatoServiceFactory;
 use App\Service\Entity\Factory\RecrutadorServiceFactory;
 use App\Service\Entity\RecrutadorService;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
@@ -48,7 +50,8 @@ class ConfigProvider
             'factories'  => [
 
                 //Service/Entity
-                RecrutadorService::class => RecrutadorServiceFactory::class,
+                RecrutadorService::class    => RecrutadorServiceFactory::class,
+                CandidatoService::class     => CandidatoServiceFactory::class,
 
                 //Handler
                 RecrutadorHandler::class        => RecrutadorHandlerFactory::class,

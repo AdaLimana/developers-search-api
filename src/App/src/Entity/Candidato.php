@@ -48,10 +48,16 @@ class Candidato extends Entity
 
     /**
      * MUNITOS Candidatos TEM MUITAS Habilidades.
+     * 
+     * candidato_id é onDelete="CASCADE", pois, caso
+     * um candidato seja deletado, não faz sentido
+     * manter a referência (um registor na tabela
+     * candidatos_habilidades)
+     * 
      * @ORM\ManyToMany(targetEntity="Habilidade")
      * @ORM\JoinTable(
      *      name="candidatos_habilidades",
-     *      joinColumns={@ORM\JoinColumn(name="candidato_id", referencedColumnName="id")},
+     *      joinColumns={@ORM\JoinColumn(name="candidato_id", referencedColumnName="id", onDelete="CASCADE")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="habilidade_id", referencedColumnName="id")}
      * )
      * @var Collection

@@ -2,19 +2,19 @@
 
 namespace App\Service\Entity;
 
-use App\Entity\Recrutador;
-use App\Validation\RecrutadorValidation;
+use App\Entity\Candidato;
+use App\Validation\CandidatoValidation;
 use Core\Exception\ValidationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Laminas\Crypt\Password\Bcrypt;
 
 /**
- * Description of RecrutadorService
+ * Description of CandidatoService
  *
  * @author adair
  */
-class RecrutadorService
+class CandidatoService
 {
 
     private EntityManagerInterface $entityManager;
@@ -29,8 +29,8 @@ class RecrutadorService
         try{
 
             $qb = $this->entityManager->createQueryBuilder()
-                                      ->select('partial recrutador.{id, email, created, updated}')
-                                      ->from(Recrutador::class, 'recrutador');
+                                      ->select('candidato')
+                                      ->from(Candidato::class, 'candidato');
             $result = [];
 
             if(
@@ -78,9 +78,9 @@ class RecrutadorService
         try{
             $result = $this->entityManager
                            ->createQueryBuilder()
-                           ->select('partial recrutador.{id, email, created, updated}')
-                           ->from(Recrutador::class, 'recrutador')
-                           ->where('recrutador.id = :id')
+                           ->select('candidato')
+                           ->from(Candidato::class, 'candidato')
+                           ->where('candidato.id = :id')
                            ->setParameter('id', $id)
                            ->getQuery()
                            ->getArrayResult();
@@ -90,7 +90,7 @@ class RecrutadorService
         }
 
         if(empty($result)){
-            throw new \Exception('Recrutador não encontrado', 404);
+            throw new \Exception('Candidato não encontrado', 404);
         }
 
         \Core\Entity\FormatAttributes::formatDate($result[0]);
@@ -101,12 +101,12 @@ class RecrutadorService
     /**
      * 
      * @param array $data
-     * @return Recrutador
+     * @return Candidato
      * @throws ValidationException
      */
-    public function create(array $data): Recrutador
+    public function create(array $data): Candidato
     {
-        $validator = new RecrutadorValidation($this->entityManager);
+        $validator = new CandidatoValidation($this->entityManager);
         $validator->setData($data);
 
         if(!$validator->isValid()){
@@ -115,27 +115,31 @@ class RecrutadorService
 
         $validatedData = $validator->getValues();
 
-        $recrutador = new Recrutador();
-        $recrutador->setData($validatedData);
+        $candidato = new Candidato();
 
-        $bcrypt = new Bcrypt();
-        $recrutador->set_Password($bcrypt->create($validatedData['password']));
+        if(isset($validatedData['habilidades']) && is_array($validatedData['habilidades'])){
+            foreach($validatedData['habilidades'] as $habilidade){
+                $candidato->addHabilidade($habilidade);
+            }
+        }
 
-        return $recrutador;
+        $candidato->setData($validatedData);
+
+        return $candidato;
     }
 
     /**
      * 
-     * @param Recrutador $recrutador 
+     * @param Candidato $candidato 
      * @param array $data
-     * @return Recrutador
+     * @return Candidato
      * @throws ValidationException
      */
-    public function update(Recrutador $recrutador, array $data): Recrutador
+    public function update(Candidato $candidato, array $data): Candidato
     {
-        $data['id'] = $recrutador->getId();
+        $data['id'] = $candidato->getId();
 
-        $validator = new RecrutadorValidation($this->entityManager);
+        $validator = new CandidatoValidation($this->entityManager);
         $validator->setData($data);
 
         if(!$validator->isValid()){
@@ -144,14 +148,17 @@ class RecrutadorService
 
         $validatedData = $validator->getValues();
 
-        if(isset($validatedData['newPassword'])){
-            $bcrypt = new Bcrypt();
-            $recrutador->set_Password($bcrypt->create($validatedData['newPassword']));
+        $candidato->getHabilidades()->clear();
+        if(isset($validatedData['habilidades']) && is_array($validatedData['habilidades'])){
+            foreach($validatedData['habilidades'] as $habilidade){
+                $candidato->addHabilidade($habilidade);
+            }
         }
 
-        $recrutador->setData($validatedData);
-        $recrutador->setUpdated(new \DateTime('now'));
+        $candidato->setData($validatedData);
+        $candidato->setUpdated(new \DateTime('now'));
 
-        return $recrutador;
+        return $candidato;
     }
+
 }
