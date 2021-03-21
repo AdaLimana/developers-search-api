@@ -19,4 +19,11 @@ return [
             ]
         ],        
     ],
+    'authentication' => [
+        'pdo' => [
+            'dsn' => 'pgsql:dbname=developers_search_db;host=db',
+            'username' => 'developers_search_user',
+            'password' => 'developers_search_pass',
+        ],
+    ],
 ];
