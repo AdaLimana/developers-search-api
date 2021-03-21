@@ -50,8 +50,11 @@
         "laminas/laminas-stdlib": "^3.2.1",
         "laminas/laminas-zendframework-bridge": "^1.0",
         "mezzio/mezzio": "^3.2.1",
+        "mezzio/mezzio-authentication": "^1.2",
+        "mezzio/mezzio-authentication-session": "^1.0",
         "mezzio/mezzio-fastroute": "^3.0.3",
         "mezzio/mezzio-helpers": "^5.3",
+        "mezzio/mezzio-session-ext": "^1.10",
         "roave/psr-container-doctrine": "^2.2"
     },
     "require-dev": {
