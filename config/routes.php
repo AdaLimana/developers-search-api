@@ -2,7 +2,15 @@
 
 declare(strict_types=1);
 
+use App\Handler\CandidatoCreateHandler;
+use App\Handler\CandidatoDeleteHandler;
+use App\Handler\CandidatoUpdateHandler;
+use App\Handler\RecrutadorCreateHandler;
+use App\Handler\RecrutadorDeleteHandler;
+use App\Handler\RecrutadorHandler;
+use App\Handler\RecrutadorUpdateHandler;
 use Mezzio\Application;
+use Mezzio\Authentication\AuthenticationMiddleware;
 use Mezzio\MiddlewareFactory;
 use Psr\Container\ContainerInterface;
 
@@ -38,13 +46,77 @@ use Psr\Container\ContainerInterface;
  */
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
 
-    $app->get('/api/recrutadores[/{id:\d+}]', App\Handler\RecrutadorHandler::class, 'recrutador-get');
-    $app->post('/api/recrutadores', App\Handler\RecrutadorCreateHandler::class, 'recrutador-post');
-    $app->put('/api/recrutadores/{id:\d+}', App\Handler\RecrutadorUpdateHandler::class, 'recrutador-put');
-    $app->delete('/api/recrutadores/{id:\d+}', App\Handler\RecrutadorDeleteHandler::class, 'recrutador-delete');
+    //RECRUTADORES
+    $app->get(
+        '/api/recrutadores[/{id:\d+}]', 
+        [
+            AuthenticationMiddleware::class,
+            RecrutadorHandler::class
+        ], 
+        'recrutador-get'
+    );
 
-    $app->get('/api/candidatos[/{id:\d+}]', App\Handler\CandidatoHandler::class, 'candidato-get');
-    $app->post('/api/candidatos', App\Handler\CandidatoCreateHandler::class, 'candidato-post');
-    $app->put('/api/candidatos/{id:\d+}', App\Handler\CandidatoUpdateHandler::class, 'candidato-put');
-    $app->delete('/api/candidatos/{id:\d+}', App\Handler\CandidatoDeleteHandler::class, 'candidato-delete');
+    $app->post(
+        '/api/recrutadores', 
+        [
+            AuthenticationMiddleware::class,
+            RecrutadorCreateHandler::class
+        ], 
+        'recrutador-post'
+    );
+
+    $app->put(
+        '/api/recrutadores/{id:\d+}', 
+        [
+            AuthenticationMiddleware::class,
+            RecrutadorUpdateHandler::class
+        ], 
+        'recrutador-put'
+    );
+    
+    $app->delete(
+        '/api/recrutadores/{id:\d+}', 
+        [
+            AuthenticationMiddleware::class,
+            RecrutadorDeleteHandler::class
+        ], 
+        'recrutador-delete'
+    );
+
+    //CANDIDATOS
+    $app->get(
+        '/api/candidatos[/{id:\d+}]', 
+        [
+            AuthenticationMiddleware::class,
+            CandidatoHandler::class
+        ], 
+        'candidato-get'
+    );
+
+    $app->post(
+        '/api/candidatos', 
+        [
+            AuthenticationMiddleware::class,
+            CandidatoCreateHandler::class
+        ],
+         'candidato-post'
+    );
+
+    $app->put(
+        '/api/candidatos/{id:\d+}', 
+        [
+            AuthenticationMiddleware::class,
+            CandidatoUpdateHandler::class
+        ], 
+        'candidato-put'
+    );
+
+    $app->delete(
+        '/api/candidatos/{id:\d+}', 
+        [
+            AuthenticationMiddleware::class,
+            CandidatoDeleteHandler::class
+        ], 
+        'candidato-delete'
+    );
 };
