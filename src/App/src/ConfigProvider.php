@@ -12,14 +12,19 @@ use App\Handler\Factory\CandidatoCreateHandlerFactory;
 use App\Handler\Factory\CandidatoDeleteHandlerFactory;
 use App\Handler\Factory\CandidatoHandlerFactory;
 use App\Handler\Factory\CandidatoUpdateHandlerFactory;
+use App\Handler\Factory\LoginHandlerFactory;
 use App\Handler\Factory\RecrutadorCreateHandlerFactory;
 use App\Handler\Factory\RecrutadorDeleteHandlerFactory;
 use App\Handler\Factory\RecrutadorHandlerFactory;
 use App\Handler\Factory\RecrutadorUpdateHandlerFactory;
+use App\Handler\LoginHandler;
+use App\Handler\LogoutHandler;
 use App\Handler\RecrutadorCreateHandler;
 use App\Handler\RecrutadorDeleteHandler;
 use App\Handler\RecrutadorHandler;
+use App\Handler\RecrutadorSessionHandler;
 use App\Handler\RecrutadorUpdateHandler;
+use App\Handler\WithoutSessionHandler;
 use App\Service\Entity\CandidatoService;
 use App\Service\Entity\Factory\CandidatoServiceFactory;
 use App\Service\Entity\Factory\RecrutadorServiceFactory;
@@ -54,6 +59,9 @@ class ConfigProvider
     {
         return [
             'invokables' => [
+                WithoutSessionHandler::class,
+                RecrutadorSessionHandler::class,
+                LogoutHandler::class,
             ],
             'factories'  => [
 
@@ -62,7 +70,8 @@ class ConfigProvider
                 CandidatoService::class     => CandidatoServiceFactory::class,
 
                 //Handler
-                
+                LoginHandler::class =>  LoginHandlerFactory::class,
+
                 RecrutadorHandler::class        => RecrutadorHandlerFactory::class,
                 RecrutadorCreateHandler::class  => RecrutadorCreateHandlerFactory::class,
                 RecrutadorUpdateHandler::class  => RecrutadorUpdateHandlerFactory::class,

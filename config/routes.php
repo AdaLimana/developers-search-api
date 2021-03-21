@@ -5,10 +5,14 @@ declare(strict_types=1);
 use App\Handler\CandidatoCreateHandler;
 use App\Handler\CandidatoDeleteHandler;
 use App\Handler\CandidatoUpdateHandler;
+use App\Handler\LoginHandler;
+use App\Handler\LogoutHandler;
 use App\Handler\RecrutadorCreateHandler;
 use App\Handler\RecrutadorDeleteHandler;
 use App\Handler\RecrutadorHandler;
+use App\Handler\RecrutadorSessionHandler;
 use App\Handler\RecrutadorUpdateHandler;
+use App\Handler\WithoutSessionHandler;
 use Mezzio\Application;
 use Mezzio\Authentication\AuthenticationMiddleware;
 use Mezzio\MiddlewareFactory;
@@ -45,6 +49,37 @@ use Psr\Container\ContainerInterface;
  * );
  */
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
+
+    //AUTHENTICATION
+    $app->get(
+        '/api/without-session', 
+        WithoutSessionHandler::class, 
+        'without-session-get'
+    );
+
+    $app->get(
+        '/api/logout',
+        [
+            AuthenticationMiddleware::class,
+            LogoutHandler::class
+        ],
+        'ogout.get'
+    );
+
+    $app->post(
+        '/api/login',
+        LoginHandler::class,
+        'login.post'
+    );
+
+    $app->get(
+        '/api/recrutador-session',
+        [
+            AuthenticationMiddleware::class,
+            RecrutadorSessionHandler::class,
+        ],
+        'recrutador-session.get'
+    );
 
     //RECRUTADORES
     $app->get(
