@@ -31,7 +31,7 @@ class RecrutadorDeleteHandlerTest extends TestCase
         $this->assertEquals(['Recrutador não pode ser excluído, pois o mesno não está cadastrado'], $responseBody);
     }
 
-    public function testDeleteRecrutadorValid()
+    public function testDeleteRecrutador()
     {
 
         $recrutador = new Recrutador(1);
