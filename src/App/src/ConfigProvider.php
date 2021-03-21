@@ -6,8 +6,10 @@ namespace App;
 
 use App\Handler\CandidatoCreateHandler;
 use App\Handler\CandidatoHandler;
+use App\Handler\CandidatoUpdateHandler;
 use App\Handler\Factory\CandidatoCreateHandlerFactory;
 use App\Handler\Factory\CandidatoHandlerFactory;
+use App\Handler\Factory\CandidatoUpdateHandlerFactory;
 use App\Handler\Factory\RecrutadorCreateHandlerFactory;
 use App\Handler\Factory\RecrutadorDeleteHandlerFactory;
 use App\Handler\Factory\RecrutadorHandlerFactory;
@@ -66,6 +68,7 @@ class ConfigProvider
 
                 CandidatoHandler::class         => CandidatoHandlerFactory::class,
                 CandidatoCreateHandler::class   => CandidatoCreateHandlerFactory::class,
+                CandidatoUpdateHandler::class   => CandidatoUpdateHandlerFactory::class,
 
             ],
         ];
