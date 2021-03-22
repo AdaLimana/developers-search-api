@@ -188,6 +188,7 @@ class CandidatoService
         foreach($paginator as $pg){
 
             $result['data'][] = [
+                'id'    => $pg->getId(),
                 'nome'  => $pg->getNome(),
                 'email' => $pg->getEmail(),
                 'linkedin' => $pg->getLinkedin(),
