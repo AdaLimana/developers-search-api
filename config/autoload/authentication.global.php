@@ -25,7 +25,8 @@ return [
                 'identity' => 'email',
                 'password' => 'password',
             ],
-            'sql_get_details'   => 'select id from cadastro__usuario where username = :identity',
+            'sql_get_roles'     => 'SQL to retrieve roles with :identity parameter',
+            'sql_get_details'   => 'select id from recrutador where email = :identity',
         ],
         'redirect' => '/api/without-session'
     ],
