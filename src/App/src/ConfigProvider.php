@@ -12,11 +12,13 @@ use App\Handler\Factory\CandidatoCreateHandlerFactory;
 use App\Handler\Factory\CandidatoDeleteHandlerFactory;
 use App\Handler\Factory\CandidatoHandlerFactory;
 use App\Handler\Factory\CandidatoUpdateHandlerFactory;
+use App\Handler\Factory\HabilidadeHandlerFactory;
 use App\Handler\Factory\LoginHandlerFactory;
 use App\Handler\Factory\RecrutadorCreateHandlerFactory;
 use App\Handler\Factory\RecrutadorDeleteHandlerFactory;
 use App\Handler\Factory\RecrutadorHandlerFactory;
 use App\Handler\Factory\RecrutadorUpdateHandlerFactory;
+use App\Handler\HabilidadeHandler;
 use App\Handler\LoginHandler;
 use App\Handler\LogoutHandler;
 use App\Handler\RecrutadorCreateHandler;
@@ -81,6 +83,8 @@ class ConfigProvider
                 CandidatoCreateHandler::class   => CandidatoCreateHandlerFactory::class,
                 CandidatoUpdateHandler::class   => CandidatoUpdateHandlerFactory::class,
                 CandidatoDeleteHandler::class   => CandidatoDeleteHandlerFactory::class,
+
+                HabilidadeHandler::class => HabilidadeHandlerFactory::class,
             ],
         ];
     }

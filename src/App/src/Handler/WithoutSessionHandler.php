@@ -13,6 +13,6 @@ class WithoutSessionHandler implements RequestHandlerInterface
 {
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-         return new JsonResponse("Recrutador não logado", 401);
+         return new JsonResponse(["Recrutador não logado"], 401);
     }
 }

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 use App\Handler\CandidatoCreateHandler;
 use App\Handler\CandidatoDeleteHandler;
+use App\Handler\CandidatoHandler;
 use App\Handler\CandidatoUpdateHandler;
+use App\Handler\HabilidadeHandler;
 use App\Handler\LoginHandler;
 use App\Handler\LogoutHandler;
 use App\Handler\RecrutadorCreateHandler;
@@ -122,7 +124,7 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     $app->get(
         '/api/candidatos[/{id:\d+}]', 
         [
-            AuthenticationMiddleware::class,
+           AuthenticationMiddleware::class,
             CandidatoHandler::class
         ], 
         'candidato-get'
@@ -153,5 +155,15 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
             CandidatoDeleteHandler::class
         ], 
         'candidato-delete'
+    );
+
+    //HABILIDADES
+    $app->get(
+        '/api/habilidades', 
+        [
+            AuthenticationMiddleware::class,
+            HabilidadeHandler::class
+        ], 
+        'habilidade-get'
     );
 };
