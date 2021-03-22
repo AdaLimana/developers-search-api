@@ -31,6 +31,7 @@ use App\Service\Entity\CandidatoService;
 use App\Service\Entity\Factory\CandidatoServiceFactory;
 use App\Service\Entity\Factory\RecrutadorServiceFactory;
 use App\Service\Entity\RecrutadorService;
+use App\Middleware\IsAdminMiddleware;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 
 /**
@@ -61,9 +62,15 @@ class ConfigProvider
     {
         return [
             'invokables' => [
+
+                //Handler
                 WithoutSessionHandler::class,
                 RecrutadorSessionHandler::class,
                 LogoutHandler::class,
+
+                //Middleware
+                IsAdminMiddleware::class
+
             ],
             'factories'  => [
 
@@ -85,6 +92,7 @@ class ConfigProvider
                 CandidatoDeleteHandler::class   => CandidatoDeleteHandlerFactory::class,
 
                 HabilidadeHandler::class => HabilidadeHandlerFactory::class,
+
             ],
         ];
     }

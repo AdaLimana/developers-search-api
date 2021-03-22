@@ -15,6 +15,7 @@ use App\Handler\RecrutadorHandler;
 use App\Handler\RecrutadorSessionHandler;
 use App\Handler\RecrutadorUpdateHandler;
 use App\Handler\WithoutSessionHandler;
+use App\Middleware\IsAdminMiddleware;
 use Mezzio\Application;
 use Mezzio\Authentication\AuthenticationMiddleware;
 use Mezzio\MiddlewareFactory;
@@ -88,6 +89,7 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         '/api/recrutadores[/{id:\d+}]', 
         [
             AuthenticationMiddleware::class,
+            IsAdminMiddleware::class,
             RecrutadorHandler::class
         ], 
         'recrutador-get'
@@ -97,6 +99,7 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         '/api/recrutadores', 
         [
             AuthenticationMiddleware::class,
+            IsAdminMiddleware::class,
             RecrutadorCreateHandler::class
         ], 
         'recrutador-post'
@@ -106,6 +109,7 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         '/api/recrutadores/{id:\d+}', 
         [
             AuthenticationMiddleware::class,
+            IsAdminMiddleware::class,
             RecrutadorUpdateHandler::class
         ], 
         'recrutador-put'
@@ -115,6 +119,7 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         '/api/recrutadores/{id:\d+}', 
         [
             AuthenticationMiddleware::class,
+            IsAdminMiddleware::class,
             RecrutadorDeleteHandler::class
         ], 
         'recrutador-delete'
