@@ -6,6 +6,8 @@ use App\Entity\Candidato;
 use App\Validation\CandidatoValidation;
 use Core\Exception\ValidationException;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Laminas\Crypt\Password\Bcrypt;
 
@@ -33,6 +35,20 @@ class CandidatoService
                                       ->addSelect('habilidades')
                                       ->from(Candidato::class, 'candidato')
                                       ->leftJoin('candidato.habilidades', 'habilidades');
+
+            if(
+                is_array($options) &&
+                isset($options['filters']) &&
+                is_array($options['filters']) &&
+                isset($options['filters']['habilidades'])
+            ){
+                $habilidades = explode('|', $options['filters']['habilidades']);
+                $habilidades = array_filter($habilidades);
+
+                $qb->andWhere('habilidades.id IN (:habilidades)')
+                   ->setParameter('habilidades', $habilidades);
+            }
+
             $result = [];
 
             if(
@@ -42,14 +58,8 @@ class CandidatoService
                 isset($options['pagination']['page']) &&
                 isset($options['pagination']['count'])
             ){
-                $qb->setFirstResult($options['pagination']['count'] * ($options['pagination']['page'] - 1) )
-                   ->setMaxResults($options['pagination']['count']);
-
-                $paginator = new Paginator($qb, true);
-
-                $result['data'] =  $paginator->getQuery()->getArrayResult();
-                $result['totalRecords'] = count($paginator);
-
+                
+                $result = $this->paginatedData($qb, $options['pagination']['page'], $options['pagination']['count']);
             }
             else{
                 $result['data'] =  $qb->getQuery()->getArrayResult();
@@ -164,5 +174,40 @@ class CandidatoService
 
         return $candidato;
     }
+
+    private function paginatedData(QueryBuilder $qb, $page, $count): array
+    {
+
+        $qb->setFirstResult($count * ($page - 1))->setMaxResults($count);
+
+
+        $paginator = new Paginator($qb, true);
+
+        $result = [];
+        $result['data'] = [];
+        foreach($paginator as $pg){
+
+            $result['data'][] = [
+                'nome'  => $pg->getNome(),
+                'email' => $pg->getEmail(),
+                'linkedin' => $pg->getLinkedin(),
+                'idade' => $pg->getIdade(),
+                'habilidades' => array_map(
+                    function($value){
+                        return [
+                            'id' => $value->getId(), 
+                            'name' => $value->getName()
+                        ];
+                    }, 
+                    $pg->getHabilidades()->toArray()
+                )
+            ];    
+        }
+
+        $result['totalRecords'] = count($paginator);
+
+        return $result;
+    }
+
 
 }
