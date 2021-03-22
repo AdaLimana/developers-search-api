@@ -158,16 +158,6 @@ class CandidatoValidation extends InputFilter
                         ]
                     ]
                 ],
-                // [
-                //     'name'      => Regex::class,
-                //     'options'=> [
-                //         // 'pattern' => '/^[0-9]{11,14}$/',
-                //         'pattern' => '/^((http(s?)://)*([a-zA-Z0-9\-])*\.|[linkedin])[linkedin/~\-]+\.[a-zA-Z0-9/~\-_,&=\?\.;]+[^\.,\s<]$',
-                //         'message' => [
-                //             Regex::INVALID      => 'Endereço do linkedin inválido',
-                //         ],
-                //     ]
-                // ],
                 [
                     'name'      => UniqueObject::class,
                     'options'   => [
