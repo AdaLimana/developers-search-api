@@ -3,7 +3,7 @@ FROM php:7.4-apache
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt update
-RUN apt install bash libpq-dev libxml2-dev -y
+RUN apt install bash unzip libpq-dev libxml2-dev -y
         
 RUN docker-php-ext-install intl pdo pdo_pgsql pgsql
 

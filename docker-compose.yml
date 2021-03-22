@@ -7,6 +7,7 @@ services:
         image: developers-search
         volumes: 
             - ../developers-search-api:/var/www/developers-search/developers-search-api
+            - ../developers-search-ui:/var/www/developers-search/developers-search-ui
             - ../developers-search-api/.docker/vhost/developers-search.conf:/etc/apache2/sites-available/000-default.conf
         depends_on: 
             - db
